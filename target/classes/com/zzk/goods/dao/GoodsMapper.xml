@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzk.goods.dao.GoodsMapper">
+
+	<select id="list" resultType="map">
+		SELECT g.*,b.bname,k.kname FROM goods g LEFT JOIN brand b on g.bid=b.bid LEFT JOIN goodskind k on k.kid=g.kid
+		where gname like "%${gname}%"
+	</select>
+	
+	<insert id="add">
+		INSERT INTO goods(gname,Englishname,chicun,money,sum,biaoqian,bid,kid) VALUES
+		(#{gname},#{Englishname},#{chicun},#{money},#{sum},#{biaoqian},#{bid.bname},#{kid.kname});
+		
+	</insert>
+	
+	<update id="update">
+		UPDATE goods SET gid=#{gid},gname=#{gname},Englishname=#{Englishname},chicun=#{chicun},money=#{money},sum=#{sum},
+		biaoqian=#{biaoqian},bid=#{bid.bname},kid=#{kid.kname} WHERE (gid=#{gid});
+		
+	</update>
+	
+	<select id="listbrand" resultType="brand">
+		select * from brand 
+	</select>
+
+	<select id="listkind" resultType="goodskind">
+		select * from goodskind 
+	</select>
+	
+	<delete id="del">
+		delete from goods where gid in (${value})
+	</delete>
+	
+	<select id="get" resultType="goods">
+		SELECT g.*,b.bname,k.kname FROM goods g LEFT JOIN brand b on g.bid=b.bid LEFT JOIN goodskind k on k.kid=g.kid where gid = #{gid}
+	</select>
+</mapper>
